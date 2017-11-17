@@ -1,4 +1,4 @@
-package hello;
+package ly.muasica.base.hello;
 
 public class Greeting {
 
