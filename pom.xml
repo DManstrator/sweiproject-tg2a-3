@@ -48,7 +48,7 @@
                 <configuration>
                     <appName>muasicaly</appName>
                     <processTypes>
-                        <web>java $JAVA_OPTS -cp target/classes:target/dependency/* edu.hm.JettyStarter</web>
+                        <web>java $JAVA_OPTS -cp target/classes:target/dependency/* hello.Application</web>
                     </processTypes>
                 </configuration>
             </plugin>
