@@ -10,9 +10,13 @@ install:
 
   - mvn -N io.takari:maven:wrapper
 
-  - ./mvnw install
+  - ./mvnw install -Pdev
 
 
 script:
 
-  mvn clean install
+  mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Pdev sonar:sonar
+
+addons:
+   sonarcloud:
+       organization: "sweiws2017_18"
