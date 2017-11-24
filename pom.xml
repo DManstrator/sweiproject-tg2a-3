@@ -6,6 +6,7 @@
     <groupId>org.springframework</groupId>
     <artifactId>muasicaly</artifactId>
     <version>0.1.0</version>
+    <name>muasicaly (sweiproject-tg2a-3)</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
