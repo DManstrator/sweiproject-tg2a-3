@@ -27,7 +27,7 @@ public class ActivityController {
 
   @PostMapping
   public Activity create(@RequestBody Activity input) {
-      return activityRepository.save(new Activity(input.getText(), input.getTags(), input.getTitle()));
+      return activityRepository.save(new Activity(input.getText(), input.getTitle()));
   }
 
   @DeleteMapping("{id}")
@@ -42,7 +42,6 @@ public class ActivityController {
           return null;
       } else {
           activity.setText(input.getText());
-          activity.setTags(input.getTags());
           activity.setTitle(input.getTitle());
           return activityRepository.save(activity);
       }
