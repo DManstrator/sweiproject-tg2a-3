@@ -52,7 +52,7 @@ public class AuthController {
         boolean valid = isValidMailAddress(inputAddr);
         if (valid)  {
             if (!users.contains(input))  {
-                User user = new User(input.getMailaddr());
+                User user = new User(inputAddr);
                 MyCookie myCookie = new MyCookie(user);
                 user.setCookie(myCookie);
                 users.add(user);
@@ -66,6 +66,8 @@ public class AuthController {
                 // TODO Send EMail to Account // https://muasicaly.herokuapp.com/verify/?user=userID&token=foobar).
                 return authRepository.save(user);
             }
+            
+            // TODO call mail(users.get(users.indexOf(input));)
         }  else  {
             System.err.println(String.format("Given E-Mail-Address %s is not valid!", inputAddr));
         }

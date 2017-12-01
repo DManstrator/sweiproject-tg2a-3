@@ -140,7 +140,7 @@ public class User {
         while (id == -1 || ids.contains(id))  {
             String idStr = "";
             for (int c = 0; c < 9; c++)  {
-                idStr += ThreadLocalRandom.current().nextInt(0, 9 + 1);
+                idStr += ThreadLocalRandom.current().nextInt(0, 9 + 1); // (min, max + 1);
             }
             if (idStr.charAt(0) == '0')  {
                 idStr = "9" + idStr.substring(1);
