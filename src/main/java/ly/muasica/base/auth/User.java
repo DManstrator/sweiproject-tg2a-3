@@ -31,7 +31,7 @@ public class User {
     /**
      * Name of an User.
      */
-    private String name;
+    private String username;
     
     /**
      * E-Mail-Address of an User.
@@ -57,7 +57,7 @@ public class User {
     public User(String mailaddr) {
         String[] split = mailaddr.split("@");
         id = generateId();
-        name = split[0];
+        username = split[0];
         this.mailaddr = mailaddr;
     }
     
@@ -73,8 +73,8 @@ public class User {
      * Getter for User Name.
      * @return User Name
      */
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
     
     /**
@@ -109,7 +109,7 @@ public class User {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
         return result;
     }
     
@@ -134,14 +134,14 @@ public class User {
     }
     
     /**
-     * Generates an Unique, seven digit long User ID.
-     * @return Unique seven digit long User ID.
+     * Generates an Unique, nine digit long User ID.
+     * @return Unique nine digit long User ID.
      */
     private Long generateId() {
         long id = -1;
         while (id == -1 || ids.contains(id))  {
             String idStr = "";
-            for (int c = 0; c < 7; c++)  {
+            for (int c = 0; c < 9; c++)  {
                 idStr += ThreadLocalRandom.current().nextInt(0, 9 + 1); // (min, max + 1);
             }
             if (idStr.charAt(0) == '0')  {
@@ -155,7 +155,7 @@ public class User {
     
     @Override
     public String toString()  {
-        return String.format("U:{ID: %d, Name: %s}", id, name);
+        return String.format("U:{ID: %d, Name: %s}", id, username);
     }
 
 }
