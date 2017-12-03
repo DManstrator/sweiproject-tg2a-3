@@ -134,14 +134,14 @@ public class User {
     }
     
     /**
-     * Generates an Unique, nine digit long User ID.
-     * @return Unique nine digit long User ID.
+     * Generates an Unique, seven digit long User ID.
+     * @return Unique seven digit long User ID.
      */
     private Long generateId() {
         long id = -1;
         while (id == -1 || ids.contains(id))  {
             String idStr = "";
-            for (int c = 0; c < 9; c++)  {
+            for (int c = 0; c < 7; c++)  {
                 idStr += ThreadLocalRandom.current().nextInt(0, 9 + 1); // (min, max + 1);
             }
             if (idStr.charAt(0) == '0')  {
