@@ -83,7 +83,7 @@ public class AuthControllerTests {
             .content("{\"mailaddr\": \"" + mail + "\"}")
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.name").value("gabl"))
+            .andExpect(jsonPath("$.username").value("gabl"))
             .andExpect(jsonPath("$.mailaddr").value("gabl@hm.edu"));
         
         // TODO Check verify() and find() with the ID of the posted User
