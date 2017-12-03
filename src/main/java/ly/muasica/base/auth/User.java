@@ -19,6 +19,7 @@ public class User {
     /**
      * Created User IDs.
      */
+    @Transient
     private static List<Long> ids = new ArrayList<>();
     
     /**
@@ -40,6 +41,7 @@ public class User {
     /**
      * Cookie-Object of an User.
      */
+    // TODO @Transient need to be removed in order to access it later via. DB
     @Transient
     private MyCookie cookie;
     
@@ -112,7 +114,7 @@ public class User {
     }
     
     /**
-     * Generated eqauls method.
+     * Generated equals method.
      */
     @Override
     public boolean equals(Object obj) {
@@ -149,6 +151,11 @@ public class User {
         }
         ids.add(id);
         return id;
+    }
+    
+    @Override
+    public String toString()  {
+        return String.format("U:{ID: %d, Name: %s}", id, name);
     }
 
 }

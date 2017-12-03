@@ -2,6 +2,7 @@ package ly.muasica.base.auth;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+
+import ly.muasica.base.MyLogger;
 
 /**
  * Controller for the Authorization.
@@ -30,75 +32,20 @@ import org.springframework.web.servlet.ModelAndView;
 public class AuthController {
     
     /**
+     * Logger Implementation.
+     */
+    private final static Logger LOGGER = MyLogger.getLogger();
+    
+    /**
      * List of created Users.
      */
-    private static List<User> users = new ArrayList<>();
+    private static List<User> users = new ArrayList<>();  // TODO should be removed, db should be used instead
     
     /**
      * Database for User Objects.
      */
     @Autowired
     private AuthRepository authRepository;
-    
-    /**
-     * Checks if a user already exists or creates it.
-     * Also checks if the eMail is correct (from MUAS or CalyPoly).
-     * @param input User Object automatically created by Spring Boot
-     * @return Correct User Object with the E-Mail-Address from the input or null if eMail is wrong
-     */
-    @PostMapping("/verify")
-    public User create(@RequestBody User input) {
-        String inputAddr = input.getMailaddr();
-        boolean valid = isValidMailAddress(inputAddr);
-        if (valid)  {
-            if (!users.contains(input))  {
-                User user = new User(inputAddr);
-                MyCookie myCookie = new MyCookie(user);
-                user.setCookie(myCookie);
-                users.add(user);
-                String[] hosts = {"http://localhost:8080", "https://muasicaly.herokuapp.com"};
-                String requestUrl;
-                for (String host : hosts)  {
-                    requestUrl = String.format("%s/verify/?user=%s&token=%s", host, user.getId(), myCookie.getValue());
-                    System.out.println(requestUrl);
-                }
-                
-                // TODO Send EMail to Account // https://muasicaly.herokuapp.com/verify/?user=userID&token=foobar).
-                return authRepository.save(user);
-            }
-            
-            // TODO call mail(users.get(users.indexOf(input));)
-        }  else  {
-            System.err.println(String.format("Given E-Mail-Address %s is not valid!", inputAddr));
-        }
-        return null;
-    }
-    
-    /**
-     * Verifies a Client with User-ID and Token.
-     * @param id ID of the User
-     * @param token Token belonging to the User
-     * @param response HttpServletResponse to set a Cookie
-     * @return true if the verification was successful, else false
-     * @throws Exception In Case something goes wrong
-     */
-    @RequestMapping("/verify/")
-    public boolean verify(@RequestParam(value="user") String id, @RequestParam(value="token") String token, HttpServletResponse response) throws Exception  {
-        boolean valid = false;
-        for (User user : users)  {
-            Long idLong = Long.parseLong(id);
-            if (user.getId().equals(idLong) && user.getCookie().getValue().equals(token))  {
-                valid = true;
-            }
-        }
-        if (valid)  {
-            setCookie(token, response);  // Do service call passing the response
-        }  else  {
-           System.err.println("User or Cookie are not valid!"); 
-        }
-        new ModelAndView("CustomerAddView");
-        return valid;
-    }
     
     // TODO Overshadows upper RequestMapping when "/" in the end of "verify", verify() is never called
     /**
@@ -121,6 +68,68 @@ public class AuthController {
     public User find(@PathVariable Long id) {
         User user = authRepository.findOne(id);
         return user;
+    }
+    
+    /**
+     * Checks if a user already exists or creates it.
+     * Also checks if the eMail is correct (from MUAS or CalyPoly).
+     * @param input User Object automatically created by Spring Boot
+     * @return Correct User Object with the E-Mail-Address from the input or null if eMail is wrong
+     */
+    @PostMapping("/verify")
+    public User create(@RequestBody User input) {
+        String inputAddr = input.getMailaddr();
+        boolean valid = isValidMailAddress(inputAddr);
+        if (valid)  {
+            //ArrayList<User> users = listAll();  // TODO Use that method when Cookie Obj is stored in DB
+            if (!users.contains(input))  {
+                User user = new User(inputAddr);
+                MyCookie myCookie = new MyCookie(user.getId(), user.getMailaddr());
+                user.setCookie(myCookie);
+                users.add(user);
+                String[] hosts = {"http://localhost:8080", "https://muasicaly.herokuapp.com"};
+                String requestUrl;
+                for (String host : hosts)  {
+                    requestUrl = String.format("%s/verify/?user=%s&token=%s", host, user.getId(), myCookie.getValue());
+                    System.out.println(requestUrl);
+                }
+                
+                // TODO Send EMail to Account // https://muasicaly.herokuapp.com/verify/?user=userID&token=foobar).
+                return authRepository.save(user);
+            }
+            
+            // TODO call mail(users.get(users.indexOf(input));)
+        }  else  {
+            LOGGER.info(String.format("Given E-Mail-Address %s is not valid!", inputAddr));
+        }
+        return null;
+    }
+    
+    /**
+     * Verifies a Client with User-ID and Token.
+     * @param id ID of the User
+     * @param token Token belonging to the User
+     * @param response HttpServletResponse to set a Cookie
+     * @return true if the verification was successful, else false
+     * @throws Exception In Case something goes wrong
+     */
+    @RequestMapping("/verify/")
+    public boolean verify(@RequestParam(value="user") String id, @RequestParam(value="token") String token, HttpServletResponse response) throws Exception  {
+        boolean valid = false;
+        //ArrayList<User> users = listAll();  // TODO Use that method when Cookie Obj is stored in DB
+        for (User user : users)  {
+            Long idLong = Long.parseLong(id);
+            if (user.getId().equals(idLong) && user.getCookie().getValue().equals(token))  {
+                valid = true;
+            }
+        }
+        if (valid)  {
+            setCookie(token, response);  // Do service call passing the response
+        }  else  {
+           LOGGER.info("User or Cookie are not valid!"); 
+        }
+        //new ModelAndView("CustomerAddView");
+        return valid;
     }
     
     /**

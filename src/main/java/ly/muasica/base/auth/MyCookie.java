@@ -4,19 +4,27 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * Representation of an Own Cookie Class.
  * 
  * @author Daniel Gabl
  *
  */
+@Entity
 public class MyCookie {
     
     /**
-     * User belonging to the Cookie.
+     * ID of an Cookie.
      */
-    private User user;
-    
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
+
     /**
      * Value of a Cookie.
      */
@@ -31,16 +39,16 @@ public class MyCookie {
      * Custom Constructor for a Cookie.
      * @param user Belonging User
      */
-    public MyCookie(User user)  {
-        value = generateToken(user);
+    public MyCookie(Long userId, String mailAddr)  {
+        value = generateToken(userId, mailAddr);
     }
     
     /**
-     * Getter for the belonging User.
-     * @return Belonging User
+     * Getter for a Cookie ID.
+     * @return Cookie ID
      */
-    public User getUser()  {
-        return user;
+    public Long getId() {
+        return id;
     }
     
     /**
@@ -63,7 +71,7 @@ public class MyCookie {
     }
     
     /**
-     * Generated eqauls method.
+     * Generated equals method.
      */
     @Override
     public boolean equals(Object obj) {
@@ -88,10 +96,10 @@ public class MyCookie {
      * @param user Belonging User.
      * @return Value for the Cookie
      */
-    private String generateToken(User user)  {
+    private String generateToken(Long userId, String mailAddr)  {
         final long UNIXDIVISOR = 1000L;
         long unixTime = System.currentTimeMillis() / UNIXDIVISOR;
-        String md5string = user.getId() + user.getMailaddr() + unixTime;
+        String md5string = userId + mailAddr + unixTime;
         MessageDigest md;
         try {
             md = MessageDigest.getInstance("MD5");

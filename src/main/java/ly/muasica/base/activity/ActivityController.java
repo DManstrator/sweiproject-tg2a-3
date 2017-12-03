@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/activity")
@@ -45,6 +47,18 @@ public class ActivityController {
           activity.setTitle(input.getTitle());
           return activityRepository.save(activity);
       }
+  }
+  
+  @GetMapping("/filter/{name}")
+  public List<Activity> filter(@PathVariable String name)  {
+      ArrayList<Activity> activities = listAll();
+
+      List<Activity> filtered = activities
+              .stream().filter(activity -> activity.getTags().stream()
+                      .anyMatch(user -> user.getName().equals(name))
+                      )
+              .collect(Collectors.toList());
+      return filtered;
   }
 
 }

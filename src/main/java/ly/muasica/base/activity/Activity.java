@@ -1,13 +1,14 @@
 package ly.muasica.base.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
-import ly.muasica.base.activity.structure.Attachment;
 import ly.muasica.base.activity.structure.Tag;
 
 @Entity
@@ -17,7 +18,9 @@ public class Activity {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String text;
-//    private List<Tag> tags;  // TODO Write Tag Class
+    
+    @Transient
+    private List<Tag> tags = new ArrayList<>();
 //    private List<Attachment> attachments;  // TODO Write Attachment Class
     private String title;
 
@@ -54,14 +57,14 @@ public class Activity {
         this.title = title;
     }
 
-//	public List<Tag> getTags() {
-//		return tags;
-//	}
-//
-//	public void setTags(List<Tag> tags) {
-//		this.tags = tags;
-//	}
-//
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+
 //	public List<Attachment> getAttachments() {
 //		return attachments;
 //	}
