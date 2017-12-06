@@ -7,6 +7,11 @@ package ly.muasica.base.activity.structure;
  */
 public class Tag {
     
+	/**
+	 * Prefix for a Tag.
+	 */
+	public static final String prefix = "#";
+	
     /**
      * Name / Value of the Tag.
      */
@@ -16,7 +21,7 @@ public class Tag {
      * Constructor for a Tag.
      * @param name
      */
-    Tag(String name)  {
+    public Tag(String name)  {
         this.name = name;
     }
     
@@ -26,5 +31,10 @@ public class Tag {
      */
     public String getName()  {
         return name;
+    }
+    
+    @Override
+    public String toString()  {
+    	return prefix + name;
     }
 }

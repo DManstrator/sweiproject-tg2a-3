@@ -26,10 +26,20 @@ public class Activity {
 
     public Activity (){};
 
-    public Activity(String text, String title) {
+    public Activity(String text, String title, String tags) {
         this.text = text;
         this.title = title;
-//        this.tags = tags;
+        String[] tagArr = tags.split("\\s*");
+        for (String tag : tagArr)  {
+        	String[] split = tag.split(Tag.prefix);
+        	String content = "";
+        	if (split.length > 1)  {
+        		content = split[1];  //    # in String
+        	}  else  {
+        		content = split[0];  // no # in String
+        	}
+        	this.tags.add(new Tag(content));
+        }
 //        this.attachments = attachments;
     }
 
@@ -59,6 +69,14 @@ public class Activity {
 
 	public List<Tag> getTags() {
 		return tags;
+	}
+	
+	public String getTagsAsString()  {
+		StringBuilder builder = new StringBuilder();
+		for (Tag tag : tags)  {
+			builder.append(Tag.prefix + tag.getName());
+		}
+		return builder.toString();
 	}
 
 	public void setTags(List<Tag> tags) {
