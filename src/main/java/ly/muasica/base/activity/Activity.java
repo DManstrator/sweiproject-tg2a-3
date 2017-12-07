@@ -1,14 +1,11 @@
 package ly.muasica.base.activity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
-
 import ly.muasica.base.activity.structure.Tag;
 
 @Entity
@@ -18,28 +15,29 @@ public class Activity {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String text;
-    
-    @Transient
-    private List<Tag> tags = new ArrayList<>();
-//    private List<Attachment> attachments;  // TODO Write Attachment Class
     private String title;
+    
+    private ArrayList<Tag> tags;
+//    private List<Attachment> attachments;  // TODO Write Attachment Class
 
     public Activity (){};
 
-    public Activity(String text, String title, String tags) {
+    public Activity(String text, String title, ArrayList<Tag> tags) {
         this.text = text;
         this.title = title;
-        String[] tagArr = tags.split("\\s*");
-        for (String tag : tagArr)  {
-        	String[] split = tag.split(Tag.prefix);
-        	String content = "";
-        	if (split.length > 1)  {
-        		content = split[1];  //    # in String
-        	}  else  {
-        		content = split[0];  // no # in String
-        	}
-        	this.tags.add(new Tag(content));
-        }
+        this.tags = tags;
+//        String[] tagArr = tags.split("\\s*");
+//        this.tags = new ArrayList<>();
+//        for (String tag : tagArr)  {
+//        	String[] split = tag.split(Tag.prefix);
+//        	String content = "";
+//        	if (split.length > 1)  {
+//        		content = split[1];  //    # in String
+//        	}  else  {
+//        		content = split[0];  // no # in String
+//        	}
+//        	this.tags.add(new Tag(content));
+//        }
 //        this.attachments = attachments;
     }
 
@@ -67,8 +65,16 @@ public class Activity {
         this.title = title;
     }
 
-	public List<Tag> getTags() {
+	public ArrayList<Tag> getTags() {
 		return tags;
+	}
+	
+	public void setTags(ArrayList<Tag> tags) {
+		this.tags = tags;
+	}
+	
+	public boolean addTag(Tag tag)  {
+		return tags.add(tag);
 	}
 	
 	public String getTagsAsString()  {
@@ -77,10 +83,6 @@ public class Activity {
 			builder.append(Tag.prefix + tag.getName());
 		}
 		return builder.toString();
-	}
-
-	public void setTags(List<Tag> tags) {
-		this.tags = tags;
 	}
 
 //	public List<Attachment> getAttachments() {

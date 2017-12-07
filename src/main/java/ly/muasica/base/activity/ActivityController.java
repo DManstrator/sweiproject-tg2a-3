@@ -29,7 +29,11 @@ public class ActivityController {
 
   @PostMapping
   public Activity create(@RequestBody Activity input) {
-      return activityRepository.save(new Activity(input.getText(), input.getTitle(), input.getTagsAsString()));
+	  System.out.println("create activity");
+	  System.out.println(input.getTitle());
+	  System.out.println(input.getText());
+	  System.out.println(input.getTagsAsString());
+	  return activityRepository.save(new Activity(input.getText(), input.getTitle(), input.getTags()));
   }
 
   @DeleteMapping("{id}")
