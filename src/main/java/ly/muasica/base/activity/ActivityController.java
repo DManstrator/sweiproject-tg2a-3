@@ -3,6 +3,9 @@ package ly.muasica.base.activity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import ly.muasica.base.activity.structure.Tag;
+import ly.muasica.base.activity.structure.TagRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +16,9 @@ public class ActivityController {
   
   @Autowired
   private ActivityRepository activityRepository;
+  
+  @Autowired
+  private TagRepository tagRepository;
   
   
   @GetMapping
@@ -29,11 +35,14 @@ public class ActivityController {
 
   @PostMapping
   public Activity create(@RequestBody Activity input) {
-	  System.out.println("create activity");
-	  System.out.println(input.getTitle());
-	  System.out.println(input.getText());
-	  System.out.println(input.getTagsAsString());
-	  return activityRepository.save(new Activity(input.getText(), input.getTitle(), input.getTags()));
+      ArrayList<Tag> tags = new ArrayList<>();
+      input.getTags().stream().forEach(tag -> {
+    	  Tag newTag = new Tag(tag.getName());
+//    	  tagRepository.save(newTag); // TODO DB Crash, too big to be inserted
+          tags.add(newTag);
+          });
+      System.out.println(tags);
+      return activityRepository.save(new Activity(input.getText(), input.getTitle(), tags));
   }
 
   @DeleteMapping("{id}")
@@ -49,6 +58,7 @@ public class ActivityController {
       } else {
           activity.setText(input.getText());
           activity.setTitle(input.getTitle());
+          activity.setTags(input.getTags());
           return activityRepository.save(activity);
       }
   }

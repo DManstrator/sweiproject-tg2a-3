@@ -15,25 +15,25 @@ import javax.persistence.Transient;
  */
 @Entity
 public class Tag implements Serializable  {
-	
-	/**
-	 * For Serialization.
-	 */
-	private static final long serialVersionUID = -3571498582340686743L;
     
-	/**
-	 * Prefix for a Tag.
-	 */
-	@Transient
-	public static final String prefix = "#";
-	
-	/**
-	 * Id of a Tag.
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-	
+    /**
+     * For Serialization.
+     */
+    private static final long serialVersionUID = -3571498582340686743L;
+    
+    /**
+     * Prefix for a Tag.
+     */
+    @Transient
+    public static final String prefix = "";  // default #
+    
+    /**
+     * Id of a Tag.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
     /**
      * Name / Value of the Tag.
      */
@@ -43,7 +43,7 @@ public class Tag implements Serializable  {
      * Default Constructor for Spring-Boot.
      */
     public Tag() {}
-    
+        
     /**
      * Constructor for a Tag.
      * @param name
@@ -56,8 +56,16 @@ public class Tag implements Serializable  {
      * Getter for the Tag-Id.
      * @return Id of Tag
      */
-    public long getId()  {
-    	return id;
+    public Long getId()  {
+        return id;
+    }
+    
+    /**
+     * Setter for Id.
+     * @param id Id of Tag
+     */
+    public void setId(Long id)  {
+        this.id = id;
     }
     
     /**
@@ -70,6 +78,6 @@ public class Tag implements Serializable  {
     
     @Override
     public String toString()  {
-    	return prefix + name;
+        return String.format("T:{Id: %s, Content: %s}", id, prefix + name);
     }
 }
