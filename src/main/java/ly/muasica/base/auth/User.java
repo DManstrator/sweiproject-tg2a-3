@@ -14,14 +14,13 @@ import javax.persistence.Transient;
  *
  */
 @Entity
-@Table(name = "user")
 public class User {
     
     /**
      * Created User IDs.
      */
     @Transient
-    private static List<Long> ids = new ArrayList<>();
+    private static ArrayList<Long> ids = new ArrayList<>();
     
     /**
      * ID of an User.
