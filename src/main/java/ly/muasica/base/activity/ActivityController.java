@@ -75,7 +75,7 @@ public class ActivityController {
       tags.stream().forEach(tag -> {
           String name = tag.getName();
           if (name.contains(Tag.prefix))  {
-              name = name.substring(Tag.prefix.length());
+              name = name.replace(Tag.prefix, "");  // removes all Tag Prefixes
           }
           if (!checked.contains(name))  {
               Tag toFind = tagRepository.findOne(name);

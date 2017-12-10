@@ -17,7 +17,10 @@ function loadActivities ($scope, $http){
 	
 function filterActivities ($scope, $http){
 		var tag = $scope.tag.trim();
-		tag = tag.replace('#', '');
+		var amount = tag.split("#").length - 1;
+		for (c = 0; c < amount; c++) { 
+		    tag = tag.replace('#', '');
+		}
 		if (tag.length > 0)  {
 			$http({
 				 method : 'GET',
@@ -34,7 +37,10 @@ function filterActivities ($scope, $http){
 app.controller('ActivityCtrl', function ($scope, $http, $dialog) {
   	
   	loadActivities($scope, $http);
-  
+  	
+	$scope.filter = function()  {
+  		filterActivities($scope, $http);
+  	};
 		  
   	var addDialogOptions = {
     	controller: 'AddActivityCtrl',
@@ -46,9 +52,17 @@ app.controller('ActivityCtrl', function ($scope, $http, $dialog) {
     	    loadActivities($scope, $http);
         }) ;
   	};
-	
-	$scope.filter = function()  {
-  		filterActivities($scope, $http);
+  	
+  	var showDialogOptions = {
+    	controller: 'ShowActivityCtrl',
+    	templateUrl: './activityShow.html'
+  	};
+  	
+  	$scope.show = function(activity){
+  		var activityToShow = activity;
+    	$dialog.dialog(angular.extend(showDialogOptions, {resolve: {activity: angular.copy(activityToShow)}})).open().then(function (){
+    	    loadActivities($scope, $http);
+        }) ;
   	};
   	
   	var editDialogOptions = {
@@ -121,6 +135,22 @@ app.controller('EditActivityCtrl', function ($scope, $http, activity, dialog) {
 		});
   	};
   
+  	$scope.close = function(){
+  		loadActivities($scope, $http);
+    	dialog.close();
+  	};
+});
+app.controller('ShowActivityCtrl', function ($scope, $http, activity, dialog) {
+    $scope.activity = activity;
+
+	$http({
+	      method: 'GET',
+	      url: 'activity/' + $scope.activity.id
+	
+	      }).then(function (response) {
+		    $scope.activities = response.data;
+    });
+    
   	$scope.close = function(){
   		loadActivities($scope, $http);
     	dialog.close();

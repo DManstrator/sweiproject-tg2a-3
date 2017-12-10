@@ -1,0 +1,18 @@
+<div class="modal-header">
+	<h2>Details of '{{activity.title}}'</h2>
+</div>
+<div class="modal-body">
+	<table>
+		<tr>
+			<td>Details:</td>
+			<td>{{activity.text}}</td>
+		</tr>
+		<tr>
+			<td>Tags:</td>
+			<td>{{activity.tagsAsString}}</td>
+		</tr>
+	</table>
+</div>
+<div class="modal-footer">
+	<button ng-click="close()">Close</button>
+</div>
