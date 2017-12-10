@@ -3,8 +3,6 @@ package ly.muasica.base.activity.structure;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
@@ -25,18 +23,12 @@ public class Tag implements Serializable  {
      * Prefix for a Tag.
      */
     @Transient
-    public static final String prefix = "";  // default #
-    
-    /**
-     * Id of a Tag.
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    public static final String prefix = "#";  // default #
     
     /**
      * Name / Value of the Tag.
      */
+    @Id
     private String name;
     
     /**
@@ -53,22 +45,6 @@ public class Tag implements Serializable  {
     }
     
     /**
-     * Getter for the Tag-Id.
-     * @return Id of Tag
-     */
-    public Long getId()  {
-        return id;
-    }
-    
-    /**
-     * Setter for Id.
-     * @param id Id of Tag
-     */
-    public void setId(Long id)  {
-        this.id = id;
-    }
-    
-    /**
      * Getter for a Tag.
      * @return Name of the Tag
      */
@@ -76,8 +52,43 @@ public class Tag implements Serializable  {
         return name;
     }
     
+    /**
+     * Setter for a Tag.
+     */
+    public void setName(String name)  {
+        this.name = name;
+    }
+    
+    /**
+     * toString-Implementation.
+     */
     @Override
     public String toString()  {
-        return String.format("T:{Id: %s, Content: %s}", id, prefix + name);
+        return String.format("T:{Content: %s}", prefix + name);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Tag other = (Tag) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.toLowerCase().equals(other.name.toLowerCase()))
+            return false;
+        return true;
     }
 }

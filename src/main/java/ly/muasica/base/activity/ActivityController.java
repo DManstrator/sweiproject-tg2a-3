@@ -35,13 +35,7 @@ public class ActivityController {
 
   @PostMapping
   public Activity create(@RequestBody Activity input) {
-      ArrayList<Tag> tags = new ArrayList<>();
-      input.getTags().stream().forEach(tag -> {
-    	  Tag newTag = new Tag(tag.getName());
-//    	  tagRepository.save(newTag); // TODO DB Crash, too big to be inserted
-          tags.add(newTag);
-          });
-      System.out.println(tags);
+      ArrayList<Tag> tags = cleanTags(input.getTags());
       return activityRepository.save(new Activity(input.getText(), input.getTitle(), tags));
   }
 
@@ -58,7 +52,7 @@ public class ActivityController {
       } else {
           activity.setText(input.getText());
           activity.setTitle(input.getTitle());
-          activity.setTags(input.getTags());
+          activity.setTags(cleanTags(input.getTags()));
           return activityRepository.save(activity);
       }
   }
@@ -69,10 +63,33 @@ public class ActivityController {
 
       List<Activity> filtered = activities
               .stream().filter(activity -> activity.getTags().stream()
-                      .anyMatch(user -> user.getName().equals(name))
+                      .anyMatch(user -> user.getName().toLowerCase().equals(name.toLowerCase()))
                       )
               .collect(Collectors.toList());
       return filtered;
   }
-
+  
+  private ArrayList<Tag> cleanTags(ArrayList<Tag> tags)  {
+      ArrayList<String> checked = new ArrayList<>();  // Prevent Duplications
+      ArrayList<Tag> cleanedTags = new ArrayList<>();
+      tags.stream().forEach(tag -> {
+          String name = tag.getName();
+          if (name.contains(Tag.prefix))  {
+              name = name.substring(Tag.prefix.length());
+          }
+          if (!checked.contains(name))  {
+              Tag toFind = tagRepository.findOne(name);
+              if (toFind == null)  {
+                  Tag newTag = new Tag(name);
+                  tagRepository.save(newTag);
+                  cleanedTags.add(newTag);
+              }  else  {
+                  cleanedTags.add(toFind);
+              }
+              checked.add(name);
+          }
+      });
+      
+      return cleanedTags;
+  }
 }

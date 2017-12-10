@@ -78,11 +78,14 @@ public class Activity {
     }
     
     public String getTagsAsString()  {
+        if (tags.isEmpty())  {
+            return new String();
+        }
         StringBuilder builder = new StringBuilder();
         for (Tag tag : tags)  {
             builder.append(Tag.prefix + tag.getName() + " ");
         }
-        return builder.toString();
+        return builder.deleteCharAt(builder.lastIndexOf(" ")).toString();  // Remove last Space
     }
 
 //    public List<Attachment> getAttachments() {
