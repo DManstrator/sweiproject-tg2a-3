@@ -63,7 +63,7 @@ public class ActivityController {
 
       List<Activity> filtered = activities
               .stream().filter(activity -> activity.getTags().stream()
-                      .anyMatch(user -> user.getName().toLowerCase().equals(name.toLowerCase()))
+                      .anyMatch(tag -> tag.getName().toLowerCase().equals(name.toLowerCase()))
                       )
               .collect(Collectors.toList());
       return filtered;
