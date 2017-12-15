@@ -1,9 +1,6 @@
 package ly.muasica.base.auth;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -121,10 +118,10 @@ public class MailSender {
         	// Environment Variables not set yet.
         	if (System.getenv("MAIL_PORT") == null)  {
 	        	try {
-	                String dirpfad = System.getProperty("user.dir"); //aktuellen Workspace auslesen
-	                dirpfad += "/src/main/resources";
+	                String directory = System.getProperty("user.dir"); //aktuellen Workspace auslesen
+	                directory += "/src/main/resources";
 	                
-	                Runtime.getRuntime().exec("rundll32 SHELL32.DLL,ShellExec_RunDLL "+dirpfad+"/setEnv.bat");
+	                Runtime.getRuntime().exec("rundll32 SHELL32.DLL,ShellExec_RunDLL " + directory + "/setEnv.bat");
 	            } catch (IOException e) {
 	                LOGGER.info("Cannot execute Batch File to set Environment Varaibles");
 	                return;
@@ -145,8 +142,9 @@ public class MailSender {
         Properties properties = System.getProperties();
         properties.setProperty("mail.smtp.host", hostname);
         properties.setProperty("mail.smtp.port", String.valueOf(portnumber));
+        properties.setProperty("mail.smtp.socketFactory.port", String.valueOf(portnumber));
+        properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); 
         properties.setProperty("mail.smtp.auth", "true");
-        properties.setProperty("mail.smtp.starttls.enable", "true");
 
         Session session = Session.getInstance(properties, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
