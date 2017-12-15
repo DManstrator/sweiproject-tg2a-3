@@ -1,10 +1,15 @@
 package ly.muasica.base.auth;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -18,12 +23,19 @@ import javax.mail.internet.MimeMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ly.muasica.base.MyLogger;
+
 /**
  * Class is responsible for sending EMails to a given recipient with a given subject and content.
  * @author Daniel Gabl
  *
  */
 public class MailSender {
+	
+    /**
+     * Logger Implementation.
+     */
+    private final static Logger LOGGER = MyLogger.getLogger();
     
     /**
      * User Name of Mail Account.
@@ -68,6 +80,8 @@ public class MailSender {
             MailSender.portnumber = portnumber;
             
             MailSender.initialized = true;
+        } catch (NoSuchFileException ex)  {
+        	LOGGER.info("Mail Details not found, will be using Environment Variables");
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
@@ -101,10 +115,35 @@ public class MailSender {
         checkInit();
         String to = recipient;
         String from = "register@muasica.ly";
-        String host = MailSender.hostname;
+        
+        // File cannot be found
+        if (hostname == null)  {
+        	// Environment Variables not set yet.
+        	if (System.getenv("MAIL_PORT") == null)  {
+	        	try {
+	                String dirpfad = System.getProperty("user.dir"); //aktuellen Workspace auslesen
+	                dirpfad += "/src/main/resources";
+	                
+	                Runtime.getRuntime().exec("rundll32 SHELL32.DLL,ShellExec_RunDLL "+dirpfad+"/setEnv.bat");
+	            } catch (IOException e) {
+	                LOGGER.info("Cannot execute Batch File to set Environment Varaibles");
+	                return;
+	            }
+        	}
+        	System.out.println("Using Env");
+        	username = System.getenv("MAIL_ADDR");
+        	password = System.getenv("MAIL_PASS");
+        	hostname = System.getenv("MAIL_HOST");
+        	try  {
+        		portnumber = Integer.parseInt(System.getenv("MAIL_PORT"));
+	        } catch (NumberFormatException ex)  {
+	        	LOGGER.info("Mailing not possible (check Mail Details / Environment Varaibles)!");
+	        	return;
+	        }
+        }
         
         Properties properties = System.getProperties();
-        properties.setProperty("mail.smtp.host", host);
+        properties.setProperty("mail.smtp.host", hostname);
         properties.setProperty("mail.smtp.port", String.valueOf(portnumber));
         properties.setProperty("mail.smtp.auth", "true");
         properties.setProperty("mail.smtp.starttls.enable", "true");
@@ -127,6 +166,5 @@ public class MailSender {
             e.printStackTrace();
         }
         
-    }
-    
+    }    
 }

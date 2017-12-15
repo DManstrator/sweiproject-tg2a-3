@@ -16,3 +16,4 @@ README.html
 *.iml
 .idea
 maildetails.json
+setEnv.bat
