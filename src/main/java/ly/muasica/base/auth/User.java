@@ -12,7 +12,7 @@ import javax.persistence.Transient;
  * @author Daniel Gabl
  *
  */
-@Entity
+@Entity(name="UserTable")
 public class User {
     
     /**
