@@ -137,14 +137,19 @@ public class MailSender {
 	        	LOGGER.info("Mailing not possible (check Mail Details / Environment Varaibles)!");
 	        	return;
 	        }
+        	
+        	System.out.println(username);
+        	System.out.println(password);
+        	System.out.println(hostname);
+        	System.out.println(portnumber);
         }
         
         Properties properties = System.getProperties();
         properties.setProperty("mail.smtp.host", hostname);
-        properties.setProperty("mail.smtp.port", String.valueOf(portnumber));
         properties.setProperty("mail.smtp.socketFactory.port", String.valueOf(portnumber));
         properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); 
         properties.setProperty("mail.smtp.auth", "true");
+        properties.setProperty("mail.smtp.port", String.valueOf(portnumber));
 
         Session session = Session.getInstance(properties, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
