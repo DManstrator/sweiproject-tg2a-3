@@ -137,11 +137,6 @@ public class MailSender {
 	        	LOGGER.info("Mailing not possible (check Mail Details / Environment Varaibles)!");
 	        	return;
 	        }
-        	
-        	System.out.println(username);
-        	System.out.println(password);
-        	System.out.println(hostname);
-        	System.out.println(portnumber);
         }
         
         Properties properties = System.getProperties();
