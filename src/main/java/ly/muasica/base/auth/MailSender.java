@@ -139,25 +139,34 @@ public class MailSender {
 	        }
         }
         
-        Properties properties = System.getProperties();
+        Properties properties = new Properties();
         properties.setProperty("mail.smtp.host", hostname);
         properties.setProperty("mail.smtp.socketFactory.port", String.valueOf(portnumber));
         properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); 
         properties.setProperty("mail.smtp.auth", "true");
         properties.setProperty("mail.smtp.port", String.valueOf(portnumber));
 
-        Session session = Session.getInstance(properties, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
+        Session session = Session.getDefaultInstance(properties, new Authenticator() {
+        	protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
         });
         try {
-           MimeMessage message = new MimeMessage(session);
-           message.setFrom(new InternetAddress(from, "MUAS-i-Caly Team"));
-           message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-           message.setSubject(subject);
-           message.setContent(content, "text/html");
-           Transport.send(message);
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(from, "MUAS-i-Caly Team"));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			message.setSubject(subject);
+			message.setContent(content, "text/html");
+
+			// Get Session
+			Transport transport = session.getTransport("smtp");
+			
+			// GMail username with or without @gmail.com
+			// username or username@gmail.com
+			transport.connect(username, password);
+			
+			// Send the Mail
+			transport.sendMessage(message, message.getAllRecipients());
         } catch (MessagingException mex) {
            mex.printStackTrace();
         } catch (UnsupportedEncodingException e) {
