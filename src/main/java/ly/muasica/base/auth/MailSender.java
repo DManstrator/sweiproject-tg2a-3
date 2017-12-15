@@ -158,20 +158,13 @@ public class MailSender {
 			message.setSubject(subject);
 			message.setContent(content, "text/html");
 
-			// Get Session
 			Transport transport = session.getTransport("smtp");
-			
-			// GMail username with or without @gmail.com
-			// username or username@gmail.com
 			transport.connect(username, password);
-			
-			// Send the Mail
 			transport.sendMessage(message, message.getAllRecipients());
         } catch (MessagingException mex) {
            mex.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        
     }    
 }
