@@ -1,5 +1,8 @@
 package ly.muasica.base.auth;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -94,8 +97,24 @@ public class AuthController {
                     System.out.println(requestUrl);
                 }
                 
-                // TODO Send EMail to Account // https://muasicaly.herokuapp.com/verify/?user=userID&token=foobar).
+                String username = user.getUsername();
+                Long userid = user.getId();
+                String value = myCookie.getValue();
+                String content = String.format(getMailContent(), username, userid, value, userid, value);
+                String subject = "[MUAS-i-Caly] Registration";
+                MailSender.sendMail(inputAddr, content, subject);
                 return authRepository.save(user);
+            }  else  {
+                for (User user : users)  {
+                    if (input.equals(user))  {
+                        String username = user.getUsername();
+                        Long userid = user.getId();
+                        String value = user.getCookie().getValue();
+                        String content = String.format(getMailContent(), username, userid, value, userid, value);
+                        String subject = "[MUAS-i-Caly] Re-transmission of Login Link";
+                        MailSender.sendMail(inputAddr, content, subject);
+                    }
+                }
             }
             
             // TODO call mail(users.get(users.indexOf(input));)
@@ -105,6 +124,24 @@ public class AuthController {
         return null;
     }
     
+    /**
+     * Reads the HTML content from the default Registration Page
+     * @return Content of default registration page
+     */
+    private String getMailContent() {
+        String content = new String();
+        try {
+            List<String> lines = Files.readAllLines(Paths.get("src/main/resources/regMail.html"));
+            for (String line : lines)  {
+                content += line + System.lineSeparator();
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return content;
+    }
+
     /**
      * Verifies a Client with User-ID and Token.
      * @param id ID of the User
