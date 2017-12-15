@@ -129,8 +129,8 @@ table {
     border-spacing: 0;
 }
 
-.mdl-data-table th {
-    text-align: center;
+.mdl-data-table th, .mdl-data-table td {
+    text-align: center!important;
 }
 
 .ng-scope  {

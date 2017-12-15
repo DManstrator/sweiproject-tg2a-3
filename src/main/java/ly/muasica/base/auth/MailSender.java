@@ -18,15 +18,41 @@ import javax.mail.internet.MimeMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Class is responsible for sending EMails to a given recipient with a given subject and content.
+ * @author Daniel Gabl
+ *
+ */
 public class MailSender {
     
+    /**
+     * User Name of Mail Account.
+     */
     private static String username;
+    
+    /**
+     * Password of Mail Account.
+     */
     private static String password;
+    
+    /**
+     * Hostname of (SMTP) Mailserver.
+     */
     private static String hostname;
+    
+    /**
+     * Port number.
+     */
     private static int portnumber;
     
+    /**
+     * Flag for checking if Sender was initialized.
+     */
     private static boolean initialized = false;
     
+    /**
+     * Read Data from Configuration File and initialize the sender with it.
+     */
     private static void initialize()  {
         JSONObject obj;
         try {
@@ -47,12 +73,30 @@ public class MailSender {
         }
     }
     
+    /**
+     * Check if Sender was initialized.
+     */
     private static void checkInit()  {
         if (!initialized)  {
             initialize();
         }
     }
     
+    /**
+     * Sending a Mail to a given recipient.
+     * @param recipient Recipient of E-Mail
+     * @param content Content of E-Mail (HTML is allowed)
+     */
+    public static void sendMail(String recipient, String content)  {
+        sendMail(recipient, content, null);
+    }
+    
+    /**
+     * Sending a Mail to a given recipient.
+     * @param recipient Recipient of E-Mail
+     * @param content Content of E-Mail (HTML is allowed)
+     * @param subject Subject of E-Mail
+     */
     public static void sendMail(String recipient, String content, String subject)  {
         checkInit();
         String to = recipient;
@@ -80,7 +124,6 @@ public class MailSender {
         } catch (MessagingException mex) {
            mex.printStackTrace();
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         

@@ -1,7 +1,6 @@
 package ly.muasica.base.auth;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.persistence.Entity;
@@ -41,8 +40,6 @@ public class User {
     /**
      * Cookie-Object of an User.
      */
-    // TODO @Transient need to be removed in order to access it later via. DB
-    @Transient
     private MyCookie cookie;
     
     /**

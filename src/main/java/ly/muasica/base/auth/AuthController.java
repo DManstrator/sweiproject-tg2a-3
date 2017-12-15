@@ -40,11 +40,6 @@ public class AuthController {
     private final static Logger LOGGER = MyLogger.getLogger();
     
     /**
-     * List of created Users.
-     */
-    private static List<User> users = new ArrayList<>();  // TODO should be removed, db should be used instead
-    
-    /**
      * Database for User Objects.
      */
     @Autowired
@@ -57,6 +52,7 @@ public class AuthController {
      */
     @GetMapping("/users")
     public ArrayList<User> listAll() {
+        // TODO Cookie Value should not be displayed to Browser
         ArrayList<User> users = new ArrayList<>();
         authRepository.findAll().forEach(user -> users.add(user));
         return users;
@@ -84,7 +80,7 @@ public class AuthController {
         String inputAddr = input.getMailaddr();
         boolean valid = isValidMailAddress(inputAddr);
         if (valid)  {
-            //ArrayList<User> users = listAll();  // TODO Use that method when Cookie Obj is stored in DB
+            ArrayList<User> users = listAll();
             if (!users.contains(input))  {
                 User user = new User(inputAddr);
                 MyCookie myCookie = new MyCookie(user.getId(), user.getMailaddr());
@@ -116,8 +112,6 @@ public class AuthController {
                     }
                 }
             }
-            
-            // TODO call mail(users.get(users.indexOf(input));)
         }  else  {
             LOGGER.info(String.format("Given E-Mail-Address %s is not valid!", inputAddr));
         }
@@ -136,7 +130,6 @@ public class AuthController {
                 content += line + System.lineSeparator();
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return content;
@@ -153,7 +146,7 @@ public class AuthController {
     @RequestMapping("/verify/")
     public boolean verify(@RequestParam(value="user") String id, @RequestParam(value="token") String token, HttpServletResponse response) throws Exception  {
         boolean valid = false;
-        //ArrayList<User> users = listAll();  // TODO Use that method when Cookie Obj is stored in DB
+        ArrayList<User> users = listAll();
         for (User user : users)  {
             Long idLong = Long.parseLong(id);
             if (user.getId().equals(idLong) && user.getCookie().getValue().equals(token))  {
@@ -165,7 +158,6 @@ public class AuthController {
         }  else  {
            LOGGER.info("User or Cookie are not valid!"); 
         }
-        //new ModelAndView("CustomerAddView");
         return valid;
     }
     

@@ -1,12 +1,11 @@
 package ly.muasica.base.auth;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -16,18 +15,17 @@ import javax.persistence.Id;
  *
  */
 @Entity
-public class MyCookie {
+public class MyCookie implements Serializable  {
     
     /**
-     * ID of an Cookie.
+     * Serial Version ID.
      */
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
+    private static final long serialVersionUID = 5801887864815457937L;
 
     /**
      * Value of a Cookie.
      */
+    @Id
     private String value;
     
     /**
@@ -41,14 +39,6 @@ public class MyCookie {
      */
     public MyCookie(Long userId, String mailAddr)  {
         value = generateToken(userId, mailAddr);
-    }
-    
-    /**
-     * Getter for a Cookie ID.
-     * @return Cookie ID
-     */
-    public Long getId() {
-        return id;
     }
     
     /**

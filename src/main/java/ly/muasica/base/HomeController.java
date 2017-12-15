@@ -25,17 +25,15 @@ public class HomeController {
 				if (cookie.getName().equals("MUASiCaly"))  {
 					Iterable<User> users = authRepository.findAll();
 					for (User user : users)  {
-						System.out.println(user.getCookie().getValue());  // TODO fix NPE
-						System.out.println(cookie.getValue());
 						if (user.getCookie().getValue().equals(cookie.getValue()))  {
-							System.out.println("Cookie fits");
+						    System.out.println("Cookie matches");
 							return "activities.html";
 						}
 					}
 				}
 			}
 		}
-		
+		System.out.println("returning index.html");
 		return "index.html";
     }
 
