@@ -1,5 +1,6 @@
 package ly.muasica.base.auth;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -13,9 +14,14 @@ import javax.persistence.Transient;
  *
  */
 @Entity(name="UserTable")
-public class User {
+public class User implements Serializable  {
     
     /**
+	 * Serial ID for User.
+	 */
+	private static final long serialVersionUID = -150561214955701712L;
+
+	/**
      * Created User IDs.
      */
     @Transient

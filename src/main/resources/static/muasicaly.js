@@ -1,38 +1,42 @@
 var app = angular.module('ActivityMeterApp', ['ui.bootstrap']);
     
 function loadActivities ($scope, $http){
-		$http({
-       		 method : 'GET',
-       		 /*
-       		 url: (window.location.hostname === 'localhost' ?
-     				'http://localhost:8080/activity' :
-                    'https://activityexample.herokuapp.com/activity')
-             */
-             url: 'activity'
-                    
-    		}).then(function (response) {
-     			 $scope.activities = response.data;
-  		});
-  	}
+	$http({
+   		 method : 'GET',
+   		 /*
+   		 url: (window.location.hostname === 'localhost' ?
+ 				'http://localhost:8080/activity' :
+                'https://activityexample.herokuapp.com/activity')
+         */
+         url: 'activity'
+                
+		}).then(function (response) {
+ 			 $scope.activities = response.data;
+	});
+}
 	
 function filterActivities ($scope, $http){
-		var tag = $scope.tag.trim();
-		var amount = tag.split("#").length - 1;
-		for (c = 0; c < amount; c++) { 
-		    tag = tag.replace('#', '');
-		}
-		if (tag.length > 0)  {
-			$http({
-				 method : 'GET',
-				 url: 'activity/filter/' + tag
-	
-				}).then(function (response) {
-					 $scope.activities = response.data;
-			});
-		}  else  {
-			loadActivities($scope, $http);
-		}
-	}	
+	var tag = $scope.tag.trim();
+	var amount = tag.split("#").length - 1;
+	for (c = 0; c < amount; c++) { 
+	    tag = tag.replace('#', '');
+	}
+	if (tag.length > 0)  {
+		$http({
+			 method : 'GET',
+			 url: 'activity/filter/' + tag
+
+			}).then(function (response) {
+				 $scope.activities = response.data;
+		});
+	}  else  {
+		loadActivities($scope, $http);
+	}
+}
+
+function openContactDialog(userId)  {
+	// TODO use userId to hide user data but access user in the program later
+}
   	
 app.controller('ActivityCtrl', function ($scope, $http, $dialog) {
   	

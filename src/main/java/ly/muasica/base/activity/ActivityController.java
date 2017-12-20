@@ -5,10 +5,15 @@ import org.springframework.web.bind.annotation.*;
 
 import ly.muasica.base.activity.structure.Tag;
 import ly.muasica.base.activity.structure.TagRepository;
+import ly.muasica.base.auth.AuthRepository;
+import ly.muasica.base.auth.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/activity")
@@ -16,6 +21,12 @@ public class ActivityController {
   
   @Autowired
   private ActivityRepository activityRepository;
+  
+  /**
+   * Database for User Objects.
+   */
+  @Autowired
+  private AuthRepository authRepository;
   
   @Autowired
   private TagRepository tagRepository;
@@ -34,10 +45,28 @@ public class ActivityController {
   }
 
   @PostMapping
-  public Activity create(@RequestBody Activity input) {
-      ArrayList<Tag> tags = cleanTags(input.getTags());
-      return activityRepository.save(new Activity(input.getText(), input.getTitle(), tags));
+  public Activity create(@RequestBody Activity input, HttpServletRequest req) {
+	  User author = findUser(req.getCookies());
+	  if (author != null)  {
+	      ArrayList<Tag> tags = cleanTags(input.getTags());
+	      return activityRepository.save(new Activity(input.getText(), input.getTitle(), tags, author));
+	  }
+	  return null;
   }
+	  
+
+  private User findUser(Cookie[] cookies) {	
+	for (User user : authRepository.findAll())  {
+		String value = user.getCookie().getValue();
+		for (Cookie cookie : cookies)  {
+			if (cookie.getValue().equals(value))  {
+				return user;
+			}
+		}
+	}
+	
+	return null;
+}
 
   @DeleteMapping("{id}")
   public void delete(@PathVariable Long id) {

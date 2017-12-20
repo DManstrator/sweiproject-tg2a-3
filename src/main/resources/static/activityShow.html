@@ -1,6 +1,10 @@
 <div class="modal-header">
 	<h2>Details of '{{activity.title}}'</h2>
 </div>
+<script>
+	var xD = {{activity.title}};
+	console.log(xD);
+</script>
 <div class="modal-body">
 	<table>
 		<tr>
@@ -12,6 +16,7 @@
 			<td>{{activity.tagsAsString}}</td>
 		</tr>
 	</table>
+	<button style="margin-left: 20px;" type="button" onclick="openContactDialog(activity.author.id);">Kontakt aufnehmen</button>
 </div>
 <div class="modal-footer">
 	<button ng-click="close()">Close</button>
