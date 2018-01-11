@@ -35,7 +35,8 @@ function filterActivities ($scope, $http){
 }
 
 function openContactDialog(userId)  {
-	// TODO use userId to hide user data but access user in the program later
+	console.log("User-ID to get from System: " + userId);
+	// TODO get user from id and call mail from there (and open new window for inserting data like subject, mail and body)
 }
   	
 app.controller('ActivityCtrl', function ($scope, $http, $dialog) {
