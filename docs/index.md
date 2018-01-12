@@ -15,4 +15,4 @@ le think about Abläufe
 DAB
 
 ## Prezi-Prezitation
-<iframe width="1280" height="720" src="https://prezi.com/view/7p8LQ1AlacL0lCyVQ9be/embed" webkitallowfullscreen="1" mozallowfullscreen="1" allowfullscreen="1"></iframe>
+<iframe width="853" height="480" src="https://prezi.com/view/7p8LQ1AlacL0lCyVQ9be/embed" webkitallowfullscreen="1" mozallowfullscreen="1" allowfullscreen="1"></iframe>
