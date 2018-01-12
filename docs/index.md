@@ -1,4 +1,4 @@
-# Demoprojekt sweiproject-example
+# MUASiCaly
 
 A Project from MUAS for MUAS (... and CalyPoly).
 

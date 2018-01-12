@@ -8,6 +8,7 @@
 [ ![license][] ](https://github.com/sweIhm/sweiproject-tg2a-3/tree/master/LICENSE)
 
 # MUAS-i-Caly
+Checkout our [fancy Website](https://sweihm.github.io/sweiproject-tg2a-3/)!
 
 This guide walks you through the process of creating a "hello world" [RESTful web service](/understanding/REST) with Spring.
 
