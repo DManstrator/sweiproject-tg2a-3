@@ -45,7 +45,6 @@ public class AuthController {
     @Autowired
     private AuthRepository authRepository;
     
-    // TODO Overshadows upper RequestMapping when "/" in the end of "verify", verify() is never called
     /**
      * Returns a List of all Users in the Database.
      * @return a List of all Users in the Database
@@ -134,7 +133,9 @@ public class AuthController {
         }
         return content;
     }
-
+    
+    
+    // TODO Overshadows upper RequestMapping when "/" in the end of "verify", verify() is never called
     /**
      * Verifies a Client with User-ID and Token.
      * @param id ID of the User
