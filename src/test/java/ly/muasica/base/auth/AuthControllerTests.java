@@ -76,15 +76,15 @@ public class AuthControllerTests {
      */
     @Test
     public void testCreate() throws Exception  {
-        String mail = "gabl@hm.edu";
+        String mail = "muasicaly_junit-test@hm.edu";
           
         this.mockMvc.perform(post("/verify")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"mailaddr\": \"" + mail + "\"}")
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.username").value("gabl"))
-            .andExpect(jsonPath("$.mailaddr").value("gabl@hm.edu"));
+            .andExpect(jsonPath("$.username").value("muasicaly_junit-test"))
+            .andExpect(jsonPath("$.mailaddr").value("muasicaly_junit-test@hm.edu"));
         
         // TODO Check verify() and find() with the ID of the posted User
     }

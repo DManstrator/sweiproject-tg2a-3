@@ -36,8 +36,8 @@ public class MyLogger {
             LogManager.getLogManager().readConfiguration(MyLogger.class.getClassLoader().getResourceAsStream("logging.properties"));
             LogManager.getLogManager().addLogger(LOGGER);
         }  catch (IOException ex)  {
-            System.err.println("WARNING: Could not open configuration file");
-            System.err.println("WARNING: Logging not configured (console output only)");
+            System.err.println("WARNING: Could not open configuration file!");
+            System.err.println("WARNING: Logging not configured (console output only)!");
             return false;
         }
         LOGGER.info("Configured Logger");

@@ -33,19 +33,6 @@ public class Activity {
         this.title = title;
         this.tags = tags;
         this.author = author;
-//        String[] tagArr = tags.split("\\s*");
-//        this.tags = new ArrayList<>();
-//        for (String tag : tagArr)  {
-//            String[] split = tag.split(Tag.prefix);
-//            String content = "";
-//            if (split.length > 1)  {
-//                content = split[1];  //    # in String
-//            }  else  {
-//                content = split[0];  // no # in String
-//            }
-//            this.tags.add(new Tag(content));
-//        }
-//        this.attachments = attachments;
     }
 
     public Long getId() {

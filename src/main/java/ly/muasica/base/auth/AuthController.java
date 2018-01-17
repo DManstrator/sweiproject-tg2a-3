@@ -144,7 +144,8 @@ public class AuthController {
      * @throws Exception In Case something goes wrong
      */
     @RequestMapping("/verify/")
-    public boolean verify(@RequestParam(value="user") String id, @RequestParam(value="token") String token, HttpServletResponse response) throws Exception  {
+    public boolean verify(@RequestParam(value="user") String id, @RequestParam(value="token") String token,
+    		HttpServletResponse response) throws Exception  {
         boolean valid = false;
         ArrayList<User> users = listAll();
         for (User user : users)  {
@@ -186,7 +187,7 @@ public class AuthController {
         cookie.setPath("/");  // The cookie is visible to all the pages in the directory you specify, and all the pages in that directory's subdirectories
         cookie.setMaxAge(3*365*day + 366*day);  // A negative value means that the cookie is not stored persistently and will be deleted when the Web browser exits. A zero value causes the cookie to be deleted.
         cookie.setHttpOnly(true);
-        cookie.setSecure(false);  // determines whether the cookie should only be sent using a secure protocol, such as HTTPS or SSL
+        cookie.setSecure(true);  // determines whether the cookie should only be sent using a secure protocol, such as HTTPS or SSL
         return cookie;
     }
     

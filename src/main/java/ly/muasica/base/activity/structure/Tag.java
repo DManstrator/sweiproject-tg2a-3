@@ -64,7 +64,7 @@ public class Tag implements Serializable  {
      */
     @Override
     public String toString()  {
-        return String.format("T:{Content: %s}", prefix + name);
+        return String.format("Tag:{Content: %s}", prefix + name);
     }
 
     @Override

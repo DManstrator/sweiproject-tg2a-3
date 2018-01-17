@@ -123,11 +123,11 @@ public class MailSender {
 	                
 	                Runtime.getRuntime().exec("rundll32 SHELL32.DLL,ShellExec_RunDLL " + directory + "/setEnv.bat");
 	            } catch (IOException e) {
-	                LOGGER.info("Cannot execute Batch File to set Environment Varaibles");
+	                LOGGER.info("Cannot execute Batch File to set Environment Varaibles!");
 	                return;
 	            }
         	}
-        	System.out.println("Using Env");
+        	System.out.println("Using Environment Variables instead.");
         	username = System.getenv("MAIL_ADDR");
         	password = System.getenv("MAIL_PASS");
         	hostname = System.getenv("MAIL_HOST");

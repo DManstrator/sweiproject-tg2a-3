@@ -26,14 +26,14 @@ public class HomeController {
 					Iterable<User> users = authRepository.findAll();
 					for (User user : users)  {
 						if (user.getCookie().getValue().equals(cookie.getValue()))  {
-						    System.out.println("Cookie matches");
+						    System.out.println("Cookie matches with User " + user.getUsername());
 							return "activities.html";
 						}
 					}
 				}
 			}
 		}
-		System.out.println("returning index.html");
+		System.out.println("User is not logged in. -> Returning index.html");
 		return "index.html";
     }
 

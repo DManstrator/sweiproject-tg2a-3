@@ -13,7 +13,7 @@ import javax.persistence.Transient;
  * @author Daniel Gabl
  *
  */
-@Entity(name="UserTable")
+@Entity(name="UserTable")  // A table called "User" is not allowed
 public class User implements Serializable  {
     
     /**
@@ -158,7 +158,7 @@ public class User implements Serializable  {
     
     @Override
     public String toString()  {
-        return String.format("U:{ID: %d, Name: %s}", id, username);
+        return String.format("User:{ID: %d, Name: %s}", id, username);
     }
 
 }

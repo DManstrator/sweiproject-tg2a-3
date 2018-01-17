@@ -33,7 +33,7 @@ src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></scr
 </head>
 <body>
 	<div ng-controller="ActivityCtrl">
-		<img style="float: right;" src="https://raw.githubusercontent.com/sweIhm/sweiproject-tg2a-3/master/share/MUAS-i-Calyv3.png" />
+		<img style="float: right;" src="https://raw.githubusercontent.com/sweIhm/sweiproject-tg2a-3/3a02d7bcd9984dbfbd83856c24029cabc48d92f8/MUAS-i-Caly%20template.png" />
 		<div style="float: left;">
 			<h3>MUAS-i-Caly Activities:</h3>
 			<table class="mdl-data-table">
@@ -52,7 +52,6 @@ src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></scr
 					<th class="mdl-data-table__cell--non-numeric" colspan=2>&nbsp;</td>
 				</tr>
 				<tr ng-repeat="activity in activities">
-				<script></script>
 					<td class="mdl-data-table__cell--non-numeric">{{activity.title}}</td>
 					<td class="mdl-data-table__cell--non-numeric">{{activity.text}}</td>
 					<td class="mdl-data-table__cell--non-numeric"><span ng-repeat="tag in activity.tags">#{{tag.name}} </span></td>
